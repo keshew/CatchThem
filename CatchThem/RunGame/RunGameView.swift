@@ -37,6 +37,7 @@ class RunGameSpriteKit: SKScene, SKPhysicsContactDelegate {
         createCoins()
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleMoveRightNotification), name: NSNotification.Name("moveRightChikenAndColorNode"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(win), name: NSNotification.Name("WIN"), object: nil)
     }
     
     deinit {
@@ -45,6 +46,10 @@ class RunGameSpriteKit: SKScene, SKPhysicsContactDelegate {
     
     @objc func handleMoveRightNotification() {
         moveSceneLeft()
+    }
+    
+    @objc func win() {
+        scene?.isPaused = true
     }
     
     func createColorNodes() {
@@ -572,6 +577,7 @@ struct RunGameView: View {
                                     }
                                     
                                     gameModel.isWin = true
+                                    NotificationCenter.default.post(name: NSNotification.Name("WIN"), object: nil)
                                 }) {
                                     Image(.cashOut)
                                         .resizable()

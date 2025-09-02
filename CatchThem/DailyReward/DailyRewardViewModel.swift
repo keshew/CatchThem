@@ -2,10 +2,10 @@ import SwiftUI
 
 class DailyRewardViewModel: ObservableObject {
     @Published var rewards: [Reward] = [Reward(item: .coins, count: .ten), Reward(item: .energy, count: .one), Reward(item: .coins, count: .fifteen), Reward(item: .energy, count: .five),
-                                                                Reward(item: .coins, count: .thirty), Reward(item: .energy, count: .fifteen, isInfinityTime: true), Reward(item: .coins, count: .thirtyFive), Reward(item: .energy, count: .ten),
-                                                                Reward(item: .coins, count: .forty), Reward(item: .energy, count: .fifteen), Reward(item: .coins, count: .eighty), Reward(item: .energy, count: .thirty, isInfinityTime: true),
+                                                                Reward(item: .coins, count: .thirty), Reward(item: .energy, count: .one), Reward(item: .coins, count: .thirtyFive), Reward(item: .energy, count: .ten),
+                                                                Reward(item: .coins, count: .forty), Reward(item: .energy, count: .fifteen), Reward(item: .coins, count: .eighty), Reward(item: .energy, count: .one),
                                                                 Reward(item: .coins, count: .eightyFive), Reward(item: .energy, count: .twenty), Reward(item: .coins, count: .ninety), Reward(item: .energy, count: .twentyFive),
-                                                                Reward(item: .coins, count: .oneHundredEighty), Reward(item: .energy, count: .hour, isInfinityTime: true), Reward(item: .coins, count: .oneHundredEightyFive), Reward(item: .energy, count: .thirty)]
+                                                                Reward(item: .coins, count: .oneHundredEighty), Reward(item: .energy, count: .one), Reward(item: .coins, count: .oneHundredEightyFive), Reward(item: .energy, count: .thirty)]
     
     private let gotKey = "gotRewards"
     private let lastRewardDateKey = "lastRewardDate"
