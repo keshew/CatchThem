@@ -1,0 +1,170 @@
+{
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
+  "identifier" : "2F13BC00",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "6751895636",
+      "localizations" : [
+        {
+          "description" : "100 Coins",
+          "displayName" : "Coins",
+          "locale" : "en_GB"
+        }
+      ],
+      "productID" : "coins",
+      "referenceName" : "Coins",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "14.99",
+      "familyShareable" : false,
+      "internalID" : "6751896417",
+      "localizations" : [
+        {
+          "description" : "1000 Coins",
+          "displayName" : "Coins",
+          "locale" : "en_GB"
+        }
+      ],
+      "productID" : "coins1000",
+      "referenceName" : "Coins1000",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "9.99",
+      "familyShareable" : false,
+      "internalID" : "6751896040",
+      "localizations" : [
+        {
+          "description" : "500 Coins",
+          "displayName" : "Coins",
+          "locale" : "en_GB"
+        }
+      ],
+      "productID" : "coins500",
+      "referenceName" : "Coins500",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "9.99",
+      "familyShareable" : false,
+      "internalID" : "6751896461",
+      "localizations" : [
+        {
+          "description" : "10 Energy",
+          "displayName" : "Energy",
+          "locale" : "en_GB"
+        }
+      ],
+      "productID" : "energy10",
+      "referenceName" : "Energy",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "14.99",
+      "familyShareable" : false,
+      "internalID" : "6751896520",
+      "localizations" : [
+        {
+          "description" : "15 Energy",
+          "displayName" : "Energy",
+          "locale" : "en_GB"
+        }
+      ],
+      "productID" : "energy15",
+      "referenceName" : "Energy15",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "6751896425",
+      "localizations" : [
+        {
+          "description" : "5 Energy",
+          "displayName" : "Energy",
+          "locale" : "en_GB"
+        }
+      ],
+      "productID" : "energy5",
+      "referenceName" : "Energy5",
+      "type" : "Consumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "6751892508",
+    "_developerTeamID" : "H4J45N47C5",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 778597223.72215796,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

@@ -6,7 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8607CB592E686705004F6D9A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8607CB582E686705004F6D9A /* StoreKit.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		8607CB582E686705004F6D9A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		86F6374F2E6586F400806B24 /* CatchThem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatchThem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -36,16 +41,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8607CB592E686705004F6D9A /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8607CB572E686705004F6D9A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8607CB582E686705004F6D9A /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		86F637462E6586F400806B24 = {
 			isa = PBXGroup;
 			children = (
 				86F637512E6586F400806B24 /* CatchThem */,
+				8607CB572E686705004F6D9A /* Frameworks */,
 				86F637502E6586F400806B24 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -265,7 +280,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CatchThem/Preview Content\"";
-				DEVELOPMENT_TEAM = 59WWFG63NN;
+				DEVELOPMENT_TEAM = H4J45N47C5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CatchThem/Info.plist;
@@ -280,7 +295,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.CatchThem;
+				PRODUCT_BUNDLE_IDENTIFIER = com.eggcatchthemegg;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -300,7 +315,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CatchThem/Preview Content\"";
-				DEVELOPMENT_TEAM = 59WWFG63NN;
+				DEVELOPMENT_TEAM = H4J45N47C5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CatchThem/Info.plist;
@@ -315,7 +330,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.CatchThem;
+				PRODUCT_BUNDLE_IDENTIFIER = com.eggcatchthemegg;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

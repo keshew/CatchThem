@@ -3,6 +3,7 @@ import SwiftUI
 struct MainView: View {
     @StateObject var mainModel =  MainViewModel()
     @State var openRw = false
+    @State var openShop = false
     @EnvironmentObject var router: Router
     @State private var showEnergyAlert = false
     @State private var showCoinAlert = false
@@ -57,7 +58,7 @@ struct MainView: View {
                             .cornerRadius(20)
                             .overlay {
                                 Text("\(mainModel.coins.roundedToTwoPlaces())")
-                                    .Abel(size: 18)
+                                    .Abel(size: 14)
                                     .padding(.leading, 30)
                             }
                         
@@ -69,6 +70,18 @@ struct MainView: View {
                 .padding(.horizontal)
                 
                 HStack {
+                    Button(action: {
+                        withAnimation {
+                            openShop = true
+                            soundManager.playBtnSound()
+                        }
+                    }) {
+                        Image(.shop)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 60, height: 60)
+                    }
+                    
                     Spacer()
                     
                     Button(action: {
@@ -78,12 +91,13 @@ struct MainView: View {
                         }
                     }) {
                         Image(dailyRewardModel.rewards.indices.contains(where: { dailyRewardModel.canClaimReward(at: $0) }) ? .dailyRewardActive : .dailyReward)
+//                        Image(.dailyReward)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 70, height: 85)
+                            .frame(width: dailyRewardModel.rewards.indices.contains(where: { dailyRewardModel.canClaimReward(at: $0) }) ? 80 : 60, height: dailyRewardModel.rewards.indices.contains(where: { dailyRewardModel.canClaimReward(at: $0) }) ? 85 : 85)
                     }
-                    .padding(.horizontal)
                 }
+                .padding(.horizontal)
                 
                 Image(mainModel.currentIndex == 0 ? .game2 : .game1)
                     .resizable()
@@ -147,6 +161,10 @@ struct MainView: View {
             
             if openRw {
                 DailyRewardView(isOpen: $openRw)
+            }
+            
+            if openShop {
+                ShopView(openShop: $openShop)
             }
         }
         .onAppear() {
