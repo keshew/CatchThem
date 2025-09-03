@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct WinRunView: View {
-    @StateObject var winRunModel =  WinRunViewModel()
     @Binding var reward: Double
     @EnvironmentObject var router: Router
     @State var again = false

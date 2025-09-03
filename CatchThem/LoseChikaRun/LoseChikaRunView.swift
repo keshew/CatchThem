@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct LoseChikaRunView: View {
-    @StateObject var loseChikaRunModel =  LoseChikaRunViewModel()
     @EnvironmentObject var router: Router
     @State var again = false
     @Binding var reward: Double

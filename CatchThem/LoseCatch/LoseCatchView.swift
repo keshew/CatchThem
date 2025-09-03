@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct LoseCatchView: View {
-    @StateObject var loseCatchModel =  LoseCatchViewModel()
     @Binding var count: Int
     @EnvironmentObject var router: Router
     @ObservedObject private var soundManager = SoundManager.shared

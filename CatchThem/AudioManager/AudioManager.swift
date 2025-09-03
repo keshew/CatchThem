@@ -45,7 +45,7 @@ class SoundManager: ObservableObject {
         loadAllSoundEffects()
 
         if isMusicEnabled {
-//            playBackgroundMusic()
+            playBackgroundMusic()
         }
     }
 
