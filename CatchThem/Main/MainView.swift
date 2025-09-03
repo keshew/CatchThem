@@ -33,9 +33,8 @@ struct MainView: View {
                                 Rectangle()
                                     .fill(LinearGradient(colors: [Color(red: 197/255, green: 224/255, blue: 44/255),
                                                                   Color(red: 68/255, green: 178/255, blue: 20/255)], startPoint: .leading, endPoint: .trailing))
-                                    .frame(width: CGFloat(mainModel.energy) / 15 * 140, height: 30)
+                                    .frame(width: min(CGFloat(mainModel.energy), 15) / 15 * 140, height: 30)
                                     .cornerRadius(20)
-                                
                             }
                             
                             Text("\(mainModel.energy)/15")
