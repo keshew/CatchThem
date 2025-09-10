@@ -53,7 +53,7 @@ struct ContentView: View {
                     .environmentObject(router)
                     .environmentObject(dailyRewardModel)
             case .catchGame:
-                CatchGameView()
+                TrialsSetupView()
                     .environmentObject(router)
             case .runGame:
                 RunGameView()

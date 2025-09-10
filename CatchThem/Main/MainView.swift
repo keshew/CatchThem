@@ -9,6 +9,7 @@ struct MainView: View {
     @State private var showCoinAlert = false
     @EnvironmentObject var dailyRewardModel: DailyRewardViewModel
     @ObservedObject private var soundManager = SoundManager.shared
+    @State var isFacts = false
     
     var body: some View {
         ZStack {
@@ -85,15 +86,29 @@ struct MainView: View {
                     
                     Button(action: {
                         withAnimation {
+                            isFacts = true
+                            soundManager.playBtnSound()
+                        }
+                    }) {
+                        Image(.facts)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 60, height: 60)
+                    }
+                    
+                    Spacer()
+                    
+                    
+                    Button(action: {
+                        withAnimation {
                             openRw = true
                             soundManager.playBtnSound()
                         }
                     }) {
                         Image(dailyRewardModel.rewards.indices.contains(where: { dailyRewardModel.canClaimReward(at: $0) }) ? .dailyRewardActive : .dailyReward)
-//                        Image(.dailyReward)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: dailyRewardModel.rewards.indices.contains(where: { dailyRewardModel.canClaimReward(at: $0) }) ? 80 : 60, height: dailyRewardModel.rewards.indices.contains(where: { dailyRewardModel.canClaimReward(at: $0) }) ? 85 : 85)
+                            .frame(width: dailyRewardModel.rewards.indices.contains(where: { dailyRewardModel.canClaimReward(at: $0) }) ? 60 : 60, height: dailyRewardModel.rewards.indices.contains(where: { dailyRewardModel.canClaimReward(at: $0) }) ? 75 : 75)
                     }
                 }
                 .padding(.horizontal)
@@ -170,6 +185,9 @@ struct MainView: View {
             mainModel.coins = mainModel.ud.getCoins()
             mainModel.energy = mainModel.ud.getEnergy()
         }
+        .fullScreenCover(isPresented: $isFacts, content: {
+            FunFactsView()
+        })
         .alert("Not enough energy", isPresented: $showEnergyAlert) {
             Button("OK", role: .cancel) { }
         } message: {
@@ -194,9 +212,6 @@ struct MainView: View {
                     }
                 }
         )
-//        .onTapGesture {
-//            <#code#>
-//        }
     }
 }
 

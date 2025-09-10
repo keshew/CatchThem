@@ -173,8 +173,6 @@ class RunGameSpriteKit: SKScene, SKPhysicsContactDelegate {
 
         coinMultiplier += 0.01
     }
-
-
     
     func moveCarsInRandomOrder() {
         var indices = Array(0..<cars.count)
@@ -204,9 +202,9 @@ class RunGameSpriteKit: SKScene, SKPhysicsContactDelegate {
         }
         isSceneMoving = true
         if isSceneMoving {
-            chiken.texture = SKTexture(imageNamed: "chikenMove")
+            chiken.texture = SKTexture(imageNamed: "\(UserDefaults.standard.string(forKey: "selectedBirdImageName") ?? "chiken")Move")
         } else {
-            chiken.texture = SKTexture(imageNamed: "chikenStand")
+            chiken.texture = SKTexture(imageNamed: "\(UserDefaults.standard.string(forKey: "selectedBirdImageName") ?? "chiken")Stand")
         }
 
         let moveDistance: CGFloat = -100
@@ -244,15 +242,15 @@ class RunGameSpriteKit: SKScene, SKPhysicsContactDelegate {
         run(SKAction.wait(forDuration: moveDuration)) {
               self.isSceneMoving = false
             if self.isSceneMoving {
-                self.chiken.texture = SKTexture(imageNamed: "chikenMove")
+                self.chiken.texture = SKTexture(imageNamed: "\(UserDefaults.standard.string(forKey: "selectedBirdImageName") ?? "chiken")Move")
             } else {
-                self.chiken.texture = SKTexture(imageNamed: "chikenStand")
+                self.chiken.texture = SKTexture(imageNamed: "\(UserDefaults.standard.string(forKey: "selectedBirdImageName") ?? "chiken")Stand")
             }
           }
     }
 
     func addChiken() {
-        chiken = SKSpriteNode(imageNamed: "chikenStand")
+        chiken = SKSpriteNode(imageNamed: "\(UserDefaults.standard.string(forKey: "selectedBirdImageName") ?? "chiken")Stand")
         chiken.size = CGSize(width: 90, height: 90)
         chiken.position = CGPoint(x: size.width > 600 ? size.width / 4.8 : size.width / 3, y: size.height / 1.5)
 
@@ -394,7 +392,7 @@ class RunGameSpriteKit: SKScene, SKPhysicsContactDelegate {
                    let position = chicken.position
                    chicken.removeFromParent()
 
-                   let damagedChicken = SKSpriteNode(imageNamed: "chikenEnd")
+                   let damagedChicken = SKSpriteNode(imageNamed: "\(UserDefaults.standard.string(forKey: "selectedBirdImageName") ?? "chiken")End")
                    damagedChicken.size = CGSize(width: 120, height: 80)
                    damagedChicken.position = position
                    self.addChild(damagedChicken)
@@ -551,6 +549,7 @@ struct RunGameView: View {
                         .padding(.horizontal)
                         .opacity(gameModel.isPlaying ? 0.5 : 1)
                         .disabled(gameModel.isPlaying ? true : false)
+                        
                         if !gameModel.isPlaying {
                             Button(action: {
                                 withAnimation {

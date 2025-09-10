@@ -79,7 +79,7 @@ extension UserDefaultsManager {
         let defaults = UserDefaults.standard
         let isFirstLaunch = !defaults.bool(forKey: isFirstLaunchKey)
         if isFirstLaunch {
-            setCoins(500)
+            setCoins(222500)
             setEnergy(15)
             defaults.set(true, forKey: isFirstLaunchKey)
             defaults.synchronize()

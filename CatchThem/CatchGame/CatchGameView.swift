@@ -10,10 +10,12 @@ class CatchGameData: ObservableObject {
 
 class CatchGameSpriteKit: SKScene, SKPhysicsContactDelegate {
     var game: CatchGameData?
+    var setup: Setup?
+    
     @State var isDragging = false
     var selectedNode: SKNode!
     var messageNode: SKSpriteNode!
-    let eggPositions: [CGPoint] = [
+    var eggPositions: [CGPoint] = [
         CGPoint(x: UIScreen.main.bounds.width / 4.1, y: UIScreen.main.bounds.height / 1.3),
         CGPoint(x: UIScreen.main.bounds.width / 1.3, y: UIScreen.main.bounds.height / 1.3),
         CGPoint(x: UIScreen.main.bounds.width / 7.5, y: UIScreen.main.bounds.height / 1.6),
@@ -21,6 +23,7 @@ class CatchGameSpriteKit: SKScene, SKPhysicsContactDelegate {
         CGPoint(x: UIScreen.main.bounds.width / 9, y: UIScreen.main.bounds.height / 2.15),
         CGPoint(x: UIScreen.main.bounds.width / 1.12, y: UIScreen.main.bounds.height / 2.15)
     ]
+    
     var spawnInterval: TimeInterval = 3.0
     private var hasStartedSpawning = false
     
@@ -31,7 +34,7 @@ class CatchGameSpriteKit: SKScene, SKPhysicsContactDelegate {
 
         let spawnAction = SKAction.run { [weak self] in
             self?.spawnEgg()
-            self?.spawnInterval = max(0.5, (self?.spawnInterval ?? 3.0) * 0.95)
+            self?.spawnInterval = max(0.5, (self?.setup?.countOfEnergy == 3 ? 2 : (self?.spawnInterval ?? 3.0)) * 0.95)
         }
         let waitAction = SKAction.wait(forDuration: spawnInterval)
         let sequence = SKAction.sequence([spawnAction, waitAction])
@@ -61,30 +64,75 @@ class CatchGameSpriteKit: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func getEggRandom() -> String {
+        return ["goldenEgg", UserDefaults.standard.string(forKey: "selectedEggImageName") ?? "egg", UserDefaults.standard.string(forKey: "selectedEggImageName") ?? "egg"].randomElement()!
+    }
+    
     func spawnEgg() {
+        if setup?.countOfEnergy == 6 {
+            eggPositions = [
+                CGPoint(x: UIScreen.main.bounds.width / 9, y: UIScreen.main.bounds.height / 2.15),
+                CGPoint(x: UIScreen.main.bounds.width / 1.12, y: UIScreen.main.bounds.height / 2.15)
+            ]
+        } else if setup?.countOfEnergy == 7 {
+            eggPositions = [
+                CGPoint(x: UIScreen.main.bounds.width / 7.5, y: UIScreen.main.bounds.height / 1.6),
+                CGPoint(x: UIScreen.main.bounds.width / 1.15, y: UIScreen.main.bounds.height / 1.6)
+            ]
+        } else if setup?.countOfEnergy == 8 {
+            eggPositions = [
+                CGPoint(x: UIScreen.main.bounds.width / 4.1, y: UIScreen.main.bounds.height / 1.3),
+                CGPoint(x: UIScreen.main.bounds.width / 1.3, y: UIScreen.main.bounds.height / 1.3)
+            ]
+        }
+        
         let randomIndex = Int.random(in: 0..<eggPositions.count)
         let startPos = eggPositions[randomIndex]
         
-        let egg = SKSpriteNode(imageNamed: "egg")
-        egg.name = "egg"
-        egg.size = CGSize(width: 50, height: 60)
-        egg.physicsBody = SKPhysicsBody(rectangleOf: egg.size)
-        egg.physicsBody?.isDynamic = true
-        egg.physicsBody?.categoryBitMask = 1 << 2
-        egg.physicsBody?.contactTestBitMask = (1 << 1) | (1 << 3)
-        egg.physicsBody?.collisionBitMask = (1 << 1) | (1 << 3)
-        egg.position = startPos
-        
-        addChild(egg)
-        
-        let moveX: CGFloat = (startPos.x < size.width / 2) ? 0 : 0
-        let moveDown = CGPoint(x: egg.position.x + moveX, y: egg.position.y - 800)
-        
-        let moveAction = SKAction.move(to: moveDown, duration: 3.0)
-        let removeAction = SKAction.removeFromParent()
-        let sequence = SKAction.sequence([moveAction, removeAction])
-        
-        egg.run(sequence)
+        if setup?.countOfEnergy == 1 {
+            let random = getEggRandom()
+            let egg = SKSpriteNode(imageNamed: random)
+            egg.name = random
+            egg.size = CGSize(width: 50, height: 60)
+            egg.physicsBody = SKPhysicsBody(rectangleOf: egg.size)
+            egg.physicsBody?.isDynamic = true
+            egg.physicsBody?.categoryBitMask = 1 << 2
+            egg.physicsBody?.contactTestBitMask = (1 << 1) | (1 << 3)
+            egg.physicsBody?.collisionBitMask = (1 << 1) | (1 << 3)
+            egg.position = startPos
+            
+            addChild(egg)
+            
+            let moveX: CGFloat = (startPos.x < size.width / 2) ? 0 : 0
+            let moveDown = CGPoint(x: egg.position.x + moveX, y: egg.position.y - 800)
+            
+            let moveAction = SKAction.move(to: moveDown, duration: setup?.countOfEnergy == 3 ? 2.0 : setup?.countOfEnergy == 2 ? 2 : 3.0)
+            let removeAction = SKAction.removeFromParent()
+            let sequence = SKAction.sequence([moveAction, removeAction])
+            
+            egg.run(sequence)
+        } else {
+            let egg = SKSpriteNode(imageNamed: UserDefaults.standard.string(forKey: "selectedEggImageName") ?? "egg")
+            egg.name = "egg"
+            egg.size = CGSize(width: 50, height: 60)
+            egg.physicsBody = SKPhysicsBody(rectangleOf: egg.size)
+            egg.physicsBody?.isDynamic = true
+            egg.physicsBody?.categoryBitMask = 1 << 2
+            egg.physicsBody?.contactTestBitMask = (1 << 1) | (1 << 3)
+            egg.physicsBody?.collisionBitMask = (1 << 1) | (1 << 3)
+            egg.position = startPos
+            
+            addChild(egg)
+            
+            let moveX: CGFloat = (startPos.x < size.width / 2) ? 0 : 0
+            let moveDown = CGPoint(x: egg.position.x + moveX, y: egg.position.y - 800)
+            
+            let moveAction = SKAction.move(to: moveDown, duration: setup?.countOfEnergy == 3 ? 2.0 : setup?.countOfEnergy == 2 ? 2 : 3.0)
+            let removeAction = SKAction.removeFromParent()
+            let sequence = SKAction.sequence([moveAction, removeAction])
+            
+            egg.run(sequence)
+        }
     }
     
     override func didMove(to view: SKView) {
@@ -191,7 +239,7 @@ class CatchGameSpriteKit: SKScene, SKPhysicsContactDelegate {
         let crackedEggSprite = SKSpriteNode(imageNamed: "eggCracked")
         crackedEggSprite.name = "eggCracked"
         crackedEggSprite.size = CGSize(width: 120, height: 60)
-        crackedEggSprite.position = .zero  // центр контейнера
+        crackedEggSprite.position = .zero
         crackedEggContainer.addChild(crackedEggSprite)
         
         let message = SKSpriteNode(imageNamed: "message")
@@ -234,37 +282,148 @@ class CatchGameSpriteKit: SKScene, SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
         let bodyA = contact.bodyA
         let bodyB = contact.bodyB
-        
+
         let eggCategory = 1 << 2
         let floorCategory = 1 << 1
         let buscketCategory = 1 << 3
-        
-        if (bodyA.categoryBitMask == eggCategory && bodyB.categoryBitMask == floorCategory) ||
-            (bodyB.categoryBitMask == eggCategory && bodyA.categoryBitMask == floorCategory) {
-            game?.isLose = true
-            isPaused = true
-            
-            if let eggNode = bodyA.categoryBitMask == eggCategory ? bodyA.node : bodyB.node {
-                eggNode.removeFromParent()
-                let crackedEggNode = createCrackedEgg(at: eggNode.position)
-                addChild(crackedEggNode)
-                game!.soundManager.playBrokeEgg()
-            }
+
+        func isGoldenEgg(_ node: SKNode?) -> Bool {
+            guard let node = node else { return false }
+            return node.name == "goldenEgg"
         }
         
+        func isRegularEgg(_ node: SKNode?) -> Bool {
+            guard let node = node else { return false }
+            return node.name == "egg"
+        }
+
+        if (bodyA.categoryBitMask == eggCategory && bodyB.categoryBitMask == floorCategory) ||
+           (bodyB.categoryBitMask == eggCategory && bodyA.categoryBitMask == floorCategory) {
+
+            let eggNode = bodyA.categoryBitMask == eggCategory ? bodyA.node : bodyB.node
+
+            if setup?.countOfEnergy == 1 {
+                if let eggNode = eggNode, eggNode.name == "egg" {
+                    eggNode.removeFromParent()
+                } else {
+                    game?.isLose = true
+                    isPaused = true
+                    if let eggNode = eggNode {
+                        eggNode.removeFromParent()
+                        let crackedEggNode = createCrackedEgg(at: eggNode.position)
+                        addChild(crackedEggNode)
+                        game!.soundManager.playBrokeEgg()
+                    }
+                }
+            } else {
+                game?.isLose = true
+                isPaused = true
+
+                if let eggNode = eggNode {
+                    eggNode.removeFromParent()
+                    let crackedEggNode = createCrackedEgg(at: eggNode.position)
+                    addChild(crackedEggNode)
+                    game!.soundManager.playBrokeEgg()
+                }
+            }
+        }
+
+
         if (bodyA.categoryBitMask == eggCategory && bodyB.categoryBitMask == buscketCategory) ||
-            (bodyB.categoryBitMask == eggCategory && bodyA.categoryBitMask == buscketCategory) {
-            guard let eggNode = bodyA.categoryBitMask == eggCategory ? bodyA.node : bodyB.node,
-                  let buscketContainer = childNode(withName: "buscketContainer"),
+           (bodyB.categoryBitMask == eggCategory && bodyA.categoryBitMask == buscketCategory) {
+
+            let eggNode = bodyA.categoryBitMask == eggCategory ? bodyA.node : bodyB.node
+
+            guard let buscketContainer = childNode(withName: "buscketContainer"),
                   let scoreLabel = buscketContainer.childNode(withName: "scoreLabel") as? SKLabelNode else { return }
-            
-            eggNode.removeFromParent()
-            
+
+            if setup?.countOfEnergy == 1 {
+                if let eggNode = eggNode {
+                    if !isGoldenEgg(eggNode) {
+                        game?.isLose = true
+                        isPaused = true
+                        eggNode.removeFromParent()
+                        let crackedEggNode = createCrackedEgg(at: eggNode.position)
+                        addChild(crackedEggNode)
+                        game!.soundManager.playBrokeEgg()
+                        return
+                    }
+                }
+            }
+
+            eggNode?.removeFromParent()
+
             game?.score += 1
+            if game?.score == 10, setup?.countOfEnergy == 4 {
+                game?.score += 5
+            } else if game?.score == 1000, setup?.countOfEnergy == 5 {
+                loadAndUnlockRandomBird()
+            }
+
             game!.soundManager.playCatchEgg()
             scoreLabel.text = "+\(game!.score)"
         }
     }
+    
+    func loadAndUnlockRandomBird() {
+        var arrayOfBrids: [BitdType] = []
+        if let data = UserDefaults.standard.data(forKey: "arrayOfBrids") {
+            do {
+                let decoded = try JSONDecoder().decode([BitdType].self, from: data)
+                arrayOfBrids = decoded
+            } catch {
+                print("Failed to load saved birds, using default. Error: \(error)")
+                arrayOfBrids = [
+                    BitdType(name: "Classic", imageName: "chikenMove", isSelected: true, isLocked: false),
+                    BitdType(name: "Chicken", imageName: "chickenMove"),
+                    BitdType(name: "Turkey", imageName: "turkeyMove"),
+                    BitdType(name: "Parrot", imageName: "parrotMove"),
+                    BitdType(name: "Canary", imageName: "canaryMove"),
+                    BitdType(name: "Penguin", imageName: "penguinMove"),
+                    BitdType(name: "Flamingo", imageName: "flamingoMove"),
+                    BitdType(name: "Peacock", imageName: "peacockMove"),
+                    BitdType(name: "Toucan", imageName: "toucanMove"),
+                    BitdType(name: "Owl", imageName: "owlMove"),
+                    BitdType(name: "Pigeon", imageName: "pigeonMove"),
+                    BitdType(name: "Seagull", imageName: "seagullMove")
+                ]
+            }
+        } else {
+            arrayOfBrids = [
+                BitdType(name: "Classic", imageName: "chikenMove", isSelected: true, isLocked: false),
+                BitdType(name: "Chicken", imageName: "chickenMove"),
+                BitdType(name: "Turkey", imageName: "turkeyMove"),
+                BitdType(name: "Parrot", imageName: "parrotMove"),
+                BitdType(name: "Canary", imageName: "canaryMove"),
+                BitdType(name: "Penguin", imageName: "penguinMove"),
+                BitdType(name: "Flamingo", imageName: "flamingoMove"),
+                BitdType(name: "Peacock", imageName: "peacockMove"),
+                BitdType(name: "Toucan", imageName: "toucanMove"),
+                BitdType(name: "Owl", imageName: "owlMove"),
+                BitdType(name: "Pigeon", imageName: "pigeonMove"),
+                BitdType(name: "Seagull", imageName: "seagullMove")
+            ]
+        }
+
+        let lockedBirds = arrayOfBrids.filter { $0.isLocked }
+        guard let randomBird = lockedBirds.randomElement() else {
+            return
+        }
+
+        if let index = arrayOfBrids.firstIndex(where: { $0.id == randomBird.id }) {
+            arrayOfBrids[index].isLocked = false
+            saveBirds(arrayOfBrids: arrayOfBrids)
+        }
+    }
+
+    func saveBirds(arrayOfBrids: [BitdType]) {
+         do {
+             let data = try JSONEncoder().encode(arrayOfBrids)
+             UserDefaults.standard.set(data, forKey: "arrayOfBrids")
+         } catch {
+             print("Failed save birds: \(error)")
+         }
+     }
 }
 
 struct CatchGameView: View {
@@ -272,10 +431,11 @@ struct CatchGameView: View {
     @StateObject var gameModel = CatchGameData()
     @EnvironmentObject var router: Router
     @ObservedObject private var soundManager = SoundManager.shared
+    @Binding var setup: Setup
     
     var body: some View {
         ZStack {
-            SpriteView(scene: catchGameModel.createGameScene(gameData: gameModel))
+            SpriteView(scene: createGameScene(gameData: gameModel, setup: setup))
                 .ignoresSafeArea()
                 .navigationBarBackButtonHidden(true)
             
@@ -331,10 +491,20 @@ struct CatchGameView: View {
                 soundManager.playBtnSound()
             }
         }
+        .onAppear {
+            print(setup.countOfEnergy)
+        }
+    }
+    
+    func createGameScene(gameData: CatchGameData, setup: Setup) -> CatchGameSpriteKit {
+        let scene = CatchGameSpriteKit()
+        scene.game  = gameData
+        scene.setup = setup
+        return scene
     }
 }
 
 #Preview {
-    CatchGameView()
+    CatchGameView(setup: .constant(Setup(name: "", countOfEnergy: 2)))
 }
 
